@@ -1,3 +1,8 @@
-+build basic tally functionality
-+build basic localstorage functionality
-+build basic timestamp functionality
+-build basic tally functionality
+-build basic localstorage functionality
+-build basic timestamp functionality
++refine styles/layout (tailwind too heavy?)
++test on various devices/modalities
++setup tests?
+
++build and deploy
