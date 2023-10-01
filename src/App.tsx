@@ -87,35 +87,39 @@ function App() {
   
 	return (
     <>
-			<div className="flex flex-col content-center items-center h-screen border border-black border-solid p-2">
-				<div className="border border-red-600 w-3/4">
-					<h1 className="text-4xl">Tally Time</h1>
+			<div className="flex flex-col content-center items-center">
+				<div className="w-3/4">
+					<h1 className="text-3xl leading-loose text-center">Tally Time</h1>
+					<div className="flex flex-row justify-center items-center">
 					<button 
-						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 p-2"
-						onClick={addTally}
-					>
-						Rename
-					</button>
-					<p>Title = {tallyRecords[currentRecordIndex].title}</p>
-					<button 
-						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 p-2"
+						className="my-1 ml-0 mr-1 text-lg font-bold rounded-md hover:bg-purple-100 text-black px-2 py-1"
 						onClick={() => recordSelectDialogRef.current.showModal()}
 					>
-						Change
+						{tallyRecords[currentRecordIndex].title}<span className="pl-2">▼</span>
 					</button>
-					<h2>{tallyRecords[currentRecordIndex].tallySet.length}</h2>
 					<button 
-						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 p-2"
+						className="m-1 text-lg rounded-md border-solid border-purple-200 border hover:bg-purple-100 text-gray-50 px-2 py-1"
+						onClick={addTally}
+					>
+					 ✏️ 	
+					</button>
+					</div>
+					<p className="text-sm text-center mt-4 uppercase font-bold">Total Tallys</p>
+					<p className="text-7xl text-center mb-4 leading-tight">{tallyRecords[currentRecordIndex].tallySet.length}</p>
+					<div className="flex flex-row justify-center items-center">
+					<button 
+						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 px-4 py-1"
 						onClick={addTally}
 					>
 						Add Tally
 					</button>
 					<button
-						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 p-2"
+						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 px-4 py-1"
 						onClick={resetTallySet}
 					>
 						Reset
 					</button>
+					</div>
 				</div>
 				<TallyList
 					tallyRecords={tallyRecords}
