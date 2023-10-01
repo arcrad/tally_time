@@ -104,7 +104,7 @@ function App() {
 					 ✏️ 	
 					</button>
 					</div>
-					<p className="text-sm text-center mt-4 uppercase font-bold">Total Tallys</p>
+					<p className="text-sm text-center mt-4 uppercase font-bold">Total Tallies</p>
 					<p className="text-7xl text-center mb-4 leading-tight">{tallyRecords[currentRecordIndex].tallySet.length}</p>
 					<div className="flex flex-row justify-center items-center">
 					<button 
