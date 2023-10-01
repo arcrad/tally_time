@@ -87,28 +87,41 @@ function App() {
   
 	return (
     <>
-      <h1>Tally Time</h1>
-			<p>currentRecordIndex = {currentRecordIndex}</p>
-				<button onClick={addTally}>
-					Rename
-				</button>
-			<p>Title = {tallyRecords[currentRecordIndex].title}</p>
-			<button onClick={() => recordSelectDialogRef.current.showModal()}>
-				Change
-			</button>
-			<h2>{tallyRecords[currentRecordIndex].tallySet.length}</h2>
-      <div className="card">
-        <button onClick={addTally}>
-          Add Tally
-        </button>
-				<button onClick={resetTallySet}>
-					Reset
-				</button>
+			<div className="flex flex-col content-center items-center h-screen border border-black border-solid p-2">
+				<div className="border border-red-600 w-3/4">
+					<h1 className="text-4xl">Tally Time</h1>
+					<button 
+						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 p-2"
+						onClick={addTally}
+					>
+						Rename
+					</button>
+					<p>Title = {tallyRecords[currentRecordIndex].title}</p>
+					<button 
+						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 p-2"
+						onClick={() => recordSelectDialogRef.current.showModal()}
+					>
+						Change
+					</button>
+					<h2>{tallyRecords[currentRecordIndex].tallySet.length}</h2>
+					<button 
+						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 p-2"
+						onClick={addTally}
+					>
+						Add Tally
+					</button>
+					<button
+						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 p-2"
+						onClick={resetTallySet}
+					>
+						Reset
+					</button>
+				</div>
 				<TallyList
 					tallyRecords={tallyRecords}
 					currentRecordIndex={currentRecordIndex}
 				/>
-      </div>
+			</div>
 			{ 
 				<dialog ref={recordSelectDialogRef}>
 					<button onClick={ () => recordSelectDialogRef.current.close()}>

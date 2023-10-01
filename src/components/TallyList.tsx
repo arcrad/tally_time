@@ -10,7 +10,7 @@ function TallyList({
 	currentRecordIndex
 }:TallyListProps) {
 	return (
-		<div className="tallyListContainer">
+		<div className="">
 			{
 				tallyRecords && tallyRecords[currentRecordIndex] && tallyRecords[currentRecordIndex].length === 0 ? 
 					<span>No tallys yet...</span>
