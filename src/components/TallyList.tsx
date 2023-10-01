@@ -12,7 +12,7 @@ function TallyList({
 	return (
 		<div className="">
 			{
-				tallyRecords && tallyRecords[currentRecordIndex] && tallyRecords[currentRecordIndex].length === 0 ? 
+				tallyRecords && tallyRecords[currentRecordIndex] && tallyRecords[currentRecordIndex].tallySet.length === 0 ? 
 					<span>No tallys yet...</span>
 					:
 					<ul className="tallyList">
