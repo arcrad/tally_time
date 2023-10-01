@@ -1,40 +1,110 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 import './App.css'
 
 type TallySet = Date[];
 
+type TallyRecord = {
+	title: string,
+	color: string,
+	tallySet: TallySet,
+};
+
+type TallyRecords = TallyRecord[];
+
 function App() {
+	const recordSelectDialogRef = useRef<HTMLDialogElement>();
+
   const [count, setCount] = useState(0)
-	const [tallySet, setTallySet] = useState<TallySet>( () => {
-		let tallySet:TallySet|null = localStorage.getItem("tallySet");
-		if(tallySet !== null) {
-		  return JSON.parse(tallySet).map( entry => new Date(entry) );
+	const [currentRecordIndex, setCurrentRecordIndex] = useState( () => {
+		return localStorage.getItem("currentRecordIndex") || 0;
+	});
+	const [tallyRecords, setTallyRecords] = useState<TallyRecord>( () => {
+		let tallyRecords:TallyRecords|null = localStorage.getItem("tallyRecords");
+		let parsedRecords = JSON.parse(tallyRecords);
+		if(!Array.isArray(parsedRecords) || !parsedRecords.length > 0) {
+			console.warn('loading default starting tallyrecords');
+			return ([{
+				title: 'New Tally Record...',
+				color: '#ff0000',
+				tallySet: []
+			}]);
 		}
+		if(tallyRecords !== null) {
+		  let fixedRecords = parsedRecords.map( record => {
+				return ({
+					title: record.title,
+					color: record.color,
+					tallySet: record.tallySet.map( item => new Date(item) )
+				})
+			});
+			console.dir(fixedRecords);
+			return fixedRecords;
+		}
+		console.warn('got to loading empty tallyrecords');
 		return [];
 	});
 
 	useEffect( () => {
-			localStorage.setItem("tallySet", JSON.stringify(tallySet));
-	}, [tallySet]);
+			console.warn('updating tallyRecords local storage');
+			localStorage.setItem("tallyRecords", JSON.stringify(tallyRecords));
+	}, [tallyRecords]);
+	
+	useEffect( () => {
+			localStorage.setItem("currentRecordIndex", currentRecordIndex);
+	}, [currentRecordIndex]);
 
 	function addTally() {
-		setTallySet( (cs) => {
-			return [...cs, new Date()];
+		setTallyRecords( (cs) => {
+			let newTallyRecords = structuredClone(cs);
+			console.log('new tally records');
+			console.dir(newTallyRecords);
+			if(
+				Array.isArray(newTallyRecords[currentRecordIndex].tallySet)
+			) {
+				console.log('PUSH new date');
+				newTallyRecords[currentRecordIndex].tallySet.push(new Date());
+			} else {
+				console.log('CREATE new tallySet array');
+				newTallyRecords[currentRecordIndex].tallySet = [new Date()];
+			}
+			return newTallyRecords;
 		});
 	}
 	
 	function resetTallySet() {
 		if(window.confirm('Are you sure? This will delete all current tallies.')) {
-			setTallySet([]);
 		}
 	}
 
-  return (
+	function createNewRecord() {
+		setTallyRecords( cs => {
+			return [
+				...cs, 
+				{
+					title: `New Tally Record ${Math.floor(Math.random()*1000)}`,
+					color: '#ff0000',
+					tallySet: []
+				}
+			]
+		});
+		setCurrentRecordIndex(tallyRecords.length);
+		recordSelectDialogRef.current.close()
+	};
+  
+	return (
     <>
       <h1>Tally Time</h1>
-			<h2>{tallySet.length}</h2>
+			<p>currentRecordIndex = {currentRecordIndex}</p>
+				<button onClick={addTally}>
+					Rename
+				</button>
+			<p>Title = {tallyRecords[currentRecordIndex].title}</p>
+			<button onClick={() => recordSelectDialogRef.current.showModal()}>
+				Change
+			</button>
+			<h2>{tallyRecords[currentRecordIndex].tallySet.length}</h2>
       <div className="card">
         <button onClick={addTally}>
           Add Tally
@@ -44,20 +114,46 @@ function App() {
 				</button>
 				<div className="tallyListContainer">
 					{
-						tallySet.length === 0 ? 
+						tallyRecords && tallyRecords[currentRecordIndex] && tallyRecords[currentRecordIndex].length === 0 ? 
 							<span>No tallys yet...</span>
 							:
 							<ul className="tallyList">
-								{ tallySet
+								{ tallyRecords[currentRecordIndex].tallySet
 										.reverse()
 										.map( (ts, i) => <li key={i}>
-											#{tallySet.length-i} @ {ts.toLocaleString()}</li>
+											#{tallyRecords[currentRecordIndex].tallySet.length-i} @ {ts.toLocaleString()}</li>
 										)
 								}
 							</ul>
 					}
 				</div>
       </div>
+			{ 
+				<dialog ref={recordSelectDialogRef}>
+					<button onClick={ () => recordSelectDialogRef.current.close()}>
+						Close Modal
+					</button>
+					<ul>
+						{
+							tallyRecords.map( (record, i) => {
+								return ( 
+									<li
+										style={{
+											fontWeight: `${i == currentRecordIndex ? 'bold' : 'normal'}`
+										}}
+									  key={i} 
+										onClick={() => { 
+											setCurrentRecordIndex(i);
+											recordSelectDialogRef.current.close()
+										}}
+									>{record.title}</li> 
+								)
+							})
+						}
+					</ul>
+					<button onClick={createNewRecord}>+New Record</button>
+				</dialog>
+			}
     </>
   )
 }
