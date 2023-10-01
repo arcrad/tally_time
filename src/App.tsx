@@ -2,16 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 import './App.css'
-
-type TallySet = Date[];
-
-type TallyRecord = {
-	title: string,
-	color: string,
-	tallySet: TallySet,
-};
-
-type TallyRecords = TallyRecord[];
+import {TallySet, TallyRecord, TallyRecords} from './commonTypes';
+import TallyList from './components/TallyList';
 
 function App() {
 	const recordSelectDialogRef = useRef<HTMLDialogElement>();
@@ -112,21 +104,10 @@ function App() {
 				<button onClick={resetTallySet}>
 					Reset
 				</button>
-				<div className="tallyListContainer">
-					{
-						tallyRecords && tallyRecords[currentRecordIndex] && tallyRecords[currentRecordIndex].length === 0 ? 
-							<span>No tallys yet...</span>
-							:
-							<ul className="tallyList">
-								{ tallyRecords[currentRecordIndex].tallySet
-										.reverse()
-										.map( (ts, i) => <li key={i}>
-											#{tallyRecords[currentRecordIndex].tallySet.length-i} @ {ts.toLocaleString()}</li>
-										)
-								}
-							</ul>
-					}
-				</div>
+				<TallyList
+					tallyRecords={tallyRecords}
+					currentRecordIndex={currentRecordIndex}
+				/>
       </div>
 			{ 
 				<dialog ref={recordSelectDialogRef}>
