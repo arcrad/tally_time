@@ -97,7 +97,7 @@ function App() {
 			alert('Must have at least one tally record.');
 			return;
 		}
-		if(window.confirm('Are you sure? This will delete all current tallies in this record.')) {
+		if(window.confirm('Are you sure? This will delete the current record.')) {
 			setTallyRecords( cs => {
 				let newTallyRecords = structuredClone(cs);
 				newTallyRecords.splice(currentRecordIndex, 1);
