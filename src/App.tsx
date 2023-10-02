@@ -86,6 +86,19 @@ function App() {
 		recordSelectDialogRef.current.close()
 	};
 	
+	function deleteActiveRecord() {
+		if(tallyRecords.length === 1) {
+			alert('Must have at least one tally record.');
+			return;
+		}
+		setTallyRecords( cs => {
+			let newTallyRecords = structuredClone(cs);
+			newTallyRecords.splice(currentRecordIndex, 1);
+			return newTallyRecords;
+		});
+		setCurrentRecordIndex( cs => cs - 1 > 0 ? cs - 1 : 0 );
+	};
+	
 	function updateRecordTitle(newTitle) {
 		if(newTitle.length < 1) {
 			return;
@@ -135,7 +148,14 @@ function App() {
 						className="m-1 text-lg rounded-md border-solid border-purple-200 border hover:bg-purple-100 text-gray-50 px-2 py-1"
 						onClick={() => setEditRecordNameModeActive( cs => !cs)}
 					>
-					 ✏️ 	
+					 { editRecordNameModeActive ? '❌ ' : '✏️ ' }	
+					</button>
+					<button 
+						className="m-1 text-lg rounded-md border-solid border-purple-200 border hover:bg-purple-100 text-gray-50 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
+						onClick={deleteActiveRecord}
+						disabled={tallyRecords.length === 1}
+					>
+					 🗑️ 	
 					</button>
 					</div>
 					<p className="text-sm text-center mt-4 uppercase font-bold">Total Tallies</p>
