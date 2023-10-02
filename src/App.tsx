@@ -125,7 +125,7 @@ function App() {
   
 	return (
     <>
-			<div className="flex flex-col content-center items-center">
+			<div className="flex flex-col content-center items-center mb-10">
 				<div className="w-3/4">
 					<h1 className="text-3xl leading-loose text-center">Tally Time</h1>
 					<div className="flex flex-row justify-center items-center">

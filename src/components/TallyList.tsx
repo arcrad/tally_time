@@ -10,16 +10,23 @@ function TallyList({
 	currentRecordIndex
 }:TallyListProps) {
 	return (
-		<div className="">
+		<div className="mt-4 px-2 max-h-96 overflow-y-scroll">
 			{
 				tallyRecords && tallyRecords[currentRecordIndex] && tallyRecords[currentRecordIndex].tallySet.length === 0 ? 
 					<span>No tallys yet...</span>
 					:
-					<ul className="tallyList">
+					<ul className="tallyList divide-y-2">
 						{ tallyRecords[currentRecordIndex].tallySet
 								.reverse()
-								.map( (ts, i) => <li key={i}>
-									#{tallyRecords[currentRecordIndex].tallySet.length-i} @ {ts.toLocaleString()}</li>
+								.map( (ts, i) => {
+									return (
+										<li 
+											className="font-mono text-center text-lg border-purple-200 py-1 px-10"
+											key={i}
+										>
+											#{tallyRecords[currentRecordIndex].tallySet.length-i} @ {ts.toLocaleString()}
+										</li>
+									)}
 								)
 						}
 					</ul>
