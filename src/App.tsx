@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import {TallySet, TallyRecord, TallyRecords} from './commonTypes';
 import TallyList from './components/TallyList';
+import RecordsDialog from './components/RecordsDialog';
 
 function App() {
 	const recordSelectDialogRef = useRef<HTMLDialogElement>();
@@ -129,7 +130,11 @@ function App() {
 		}, 100);
 	}
 
-  
+	function updateActiveRecord(recordIndex) {
+		setCurrentRecordIndex(recordIndex);
+		recordSelectDialogRef.current.close()
+	};
+ 
 	return (
     <>
 			<div className="flex flex-col content-center items-center mb-10">
@@ -187,32 +192,13 @@ function App() {
 					currentRecordIndex={currentRecordIndex}
 				/>
 			</div>
-			{ 
-				<dialog ref={recordSelectDialogRef}>
-					<button onClick={ () => recordSelectDialogRef.current.close()}>
-						Close Modal
-					</button>
-					<ul>
-						{
-							tallyRecords.map( (record, i) => {
-								return ( 
-									<li
-										style={{
-											fontWeight: `${i == currentRecordIndex ? 'bold' : 'normal'}`
-										}}
-									  key={i} 
-										onClick={() => { 
-											setCurrentRecordIndex(i);
-											recordSelectDialogRef.current.close()
-										}}
-									>{record.title}</li> 
-								)
-							})
-						}
-					</ul>
-					<button onClick={createNewRecord}>+New Record</button>
-				</dialog>
-			}
+			<RecordsDialog
+				ref={recordSelectDialogRef}
+				tallyRecords={tallyRecords}
+				currentRecordIndex={currentRecordIndex}
+				updateActiveRecord={updateActiveRecord}
+				createNewRecord={createNewRecord}
+			/>			
     </>
   )
 }
