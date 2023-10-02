@@ -16,7 +16,7 @@ function App() {
 		let tallyRecords:TallyRecords|null = localStorage.getItem("tallyRecords");
 		let parsedRecords = JSON.parse(tallyRecords);
 		if(!Array.isArray(parsedRecords) || !parsedRecords.length > 0) {
-			console.warn('loading default starting tallyrecords');
+			//console.warn('loading default starting tallyrecords');
 			return ([{
 				title: 'New Tally Record...',
 				color: '#ff0000',
@@ -34,13 +34,13 @@ function App() {
 			console.dir(fixedRecords);
 			return fixedRecords;
 		}
-		console.warn('got to loading empty tallyrecords');
+		//console.warn('got to loading empty tallyrecords');
 		return [];
 	});
 	const [editRecordNameModeActive, setEditRecordNameModeActive] = useState(false);
 
 	useEffect( () => {
-			console.warn('updating tallyRecords local storage');
+			//console.warn('updating tallyRecords local storage');
 			localStorage.setItem("tallyRecords", JSON.stringify(tallyRecords));
 	}, [tallyRecords]);
 	
@@ -67,7 +67,12 @@ function App() {
 	}
 	
 	function resetTallySet() {
-		if(window.confirm('Are you sure? This will delete all current tallies.')) {
+		if(window.confirm('Are you sure? This will clear all current tallies in this record.')) {
+			setTallyRecords( cs => {
+				let newTallyRecords = structuredClone(cs);
+				newTallyRecords[currentRecordIndex].tallySet = [];
+				return newTallyRecords;
+			});
 		}
 	}
 
@@ -91,12 +96,14 @@ function App() {
 			alert('Must have at least one tally record.');
 			return;
 		}
-		setTallyRecords( cs => {
-			let newTallyRecords = structuredClone(cs);
-			newTallyRecords.splice(currentRecordIndex, 1);
-			return newTallyRecords;
-		});
-		setCurrentRecordIndex( cs => cs - 1 > 0 ? cs - 1 : 0 );
+		if(window.confirm('Are you sure? This will delete all current tallies in this record.')) {
+			setTallyRecords( cs => {
+				let newTallyRecords = structuredClone(cs);
+				newTallyRecords.splice(currentRecordIndex, 1);
+				return newTallyRecords;
+			});
+			setCurrentRecordIndex( cs => cs - 1 > 0 ? cs - 1 : 0 );
+		}
 	};
 	
 	function updateRecordTitle(newTitle) {
@@ -165,13 +172,13 @@ function App() {
 						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 px-4 py-1"
 						onClick={addTally}
 					>
-						Add Tally
+						<strong className="text-xl leading-none">+</strong> Add Tally
 					</button>
 					<button
 						className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 px-4 py-1"
 						onClick={resetTallySet}
 					>
-						Reset
+						Clear Tallies
 					</button>
 					</div>
 				</div>
