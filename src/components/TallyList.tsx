@@ -1,4 +1,4 @@
-import {TallySet, TallyRecord, TallyRecords} from './commonTypes';
+import { TallyRecords } from '../commonTypes';
 
 type TallyListProps = {
 	tallyRecords: TallyRecords,

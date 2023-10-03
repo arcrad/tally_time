@@ -2,21 +2,20 @@ import { useState, useEffect, useRef } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 import './App.css'
-import {TallySet, TallyRecord, TallyRecords} from './commonTypes';
+import {TallyRecords} from './commonTypes';
 import TallyList from './components/TallyList';
 import RecordsDialog from './components/RecordsDialog';
 
 function App() {
-	const recordSelectDialogRef = useRef<HTMLDialogElement>();
+	const recordSelectDialogRef = useRef<HTMLDialogElement>(null);
 
-  const [count, setCount] = useState(0)
 	const [currentRecordIndex, setCurrentRecordIndex] = useState( () => {
-		return localStorage.getItem("currentRecordIndex") || 0;
+		return parseInt(localStorage.getItem("currentRecordIndex") ?? '0');
 	});
-	const [tallyRecords, setTallyRecords] = useState<TallyRecord>( () => {
-		let tallyRecords:TallyRecords|null = localStorage.getItem("tallyRecords");
-		let parsedRecords = JSON.parse(tallyRecords);
-		if(!Array.isArray(parsedRecords) || !parsedRecords.length > 0) {
+	const [tallyRecords, setTallyRecords] = useState<TallyRecords>( () => {
+		let tallyRecordsLSV:string = localStorage.getItem("tallyRecords") ?? '';
+		let parsedRecords = JSON.parse(tallyRecordsLSV);
+		if(!Array.isArray(parsedRecords) || !(parsedRecords.length > 0)) {
 			//console.warn('loading default starting tallyrecords');
 			return ([{
 				title: 'New Tally Record...',
@@ -24,12 +23,12 @@ function App() {
 				tallySet: []
 			}]);
 		}
-		if(tallyRecords !== null) {
+		if(tallyRecordsLSV !== null) {
 		  let fixedRecords = parsedRecords.map( record => {
 				return ({
 					title: record.title,
 					color: record.color,
-					tallySet: record.tallySet.map( item => new Date(item))
+					tallySet: record.tallySet.map( (item:string) => new Date(item))
 				})
 			});
 			console.dir(fixedRecords);
@@ -46,7 +45,7 @@ function App() {
 	}, [tallyRecords]);
 	
 	useEffect( () => {
-			localStorage.setItem("currentRecordIndex", currentRecordIndex);
+			localStorage.setItem("currentRecordIndex", ''+currentRecordIndex);
 	}, [currentRecordIndex]);
 
 	function addTally() {
@@ -89,7 +88,7 @@ function App() {
 			]
 		});
 		setCurrentRecordIndex(tallyRecords.length);
-		recordSelectDialogRef.current.close()
+		recordSelectDialogRef?.current?.close()
 	};
 	
 	function deleteActiveRecord() {
@@ -107,7 +106,7 @@ function App() {
 		}
 	};
 	
-	function updateRecordTitle(newTitle) {
+	function updateRecordTitle(newTitle:string) {
 		if(newTitle.length < 1) {
 			return;
 		}
@@ -120,7 +119,7 @@ function App() {
 	}
 
 	let recordNameChangeInputDebounceId = 0;
-	function handleRecordNameChange(input) {
+	function handleRecordNameChange(input:string) {
 		if(recordNameChangeInputDebounceId > 0) {
 			window.clearTimeout(recordNameChangeInputDebounceId);
 		}
@@ -130,9 +129,9 @@ function App() {
 		}, 100);
 	}
 
-	function updateActiveRecord(recordIndex) {
+	function updateActiveRecord(recordIndex:number) {
 		setCurrentRecordIndex(recordIndex);
-		recordSelectDialogRef.current.close()
+		recordSelectDialogRef?.current?.close()
 	};
  
 	return (
@@ -151,7 +150,7 @@ function App() {
 						:
 						<button 
 							className="my-1 ml-0 mr-1 text-lg font-bold rounded-md hover:bg-purple-100 text-black px-2 py-1"
-							onClick={() => recordSelectDialogRef.current.showModal()}
+							onClick={() => recordSelectDialogRef?.current?.showModal()}
 						>
 							{tallyRecords[currentRecordIndex].title}<span className="pl-2">▼</span>
 						</button>
@@ -193,7 +192,7 @@ function App() {
 				/>
 			</div>
 			<RecordsDialog
-				ref={recordSelectDialogRef}
+				dialogRef={recordSelectDialogRef}
 				tallyRecords={tallyRecords}
 				currentRecordIndex={currentRecordIndex}
 				updateActiveRecord={updateActiveRecord}
