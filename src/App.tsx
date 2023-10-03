@@ -13,7 +13,7 @@ function App() {
 		return parseInt(localStorage.getItem("currentRecordIndex") ?? '0');
 	});
 	const [tallyRecords, setTallyRecords] = useState<TallyRecords>( () => {
-		let tallyRecordsLSV:string = localStorage.getItem("tallyRecords") ?? '';
+		let tallyRecordsLSV:string = localStorage.getItem("tallyRecords") ?? '{}';
 		let parsedRecords = JSON.parse(tallyRecordsLSV);
 		if(!Array.isArray(parsedRecords) || !(parsedRecords.length > 0)) {
 			//console.warn('loading default starting tallyrecords');
