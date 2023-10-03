@@ -1,7 +1,9 @@
 -build basic tally functionality
 -build basic localstorage functionality
 -build basic timestamp functionality
-+refine styles/layout (tailwind too heavy?)
+-refine styles/layout (tailwind too heavy? nope, used it lol)
+-remove default assets
+-validate typescript build
 +test on various devices/modalities
 +setup tests?
 
