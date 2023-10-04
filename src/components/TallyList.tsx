@@ -3,11 +3,13 @@ import { TallyRecords } from '../commonTypes';
 type TallyListProps = {
 	tallyRecords: TallyRecords,
 	currentRecordIndex: number,
+	deleteTally: (tallyIndex:number) => void,
 }
 
 function TallyList({
 	tallyRecords,
-	currentRecordIndex
+	currentRecordIndex,
+	deleteTally,
 }:TallyListProps) {
 	return (
 		<div className="mt-4 px-2 max-h-96 overflow-y-scroll">
@@ -17,14 +19,13 @@ function TallyList({
 					:
 					<ul className="tallyList divide-y-2">
 						{ tallyRecords[currentRecordIndex].tallySet
-								.reverse()
 								.map( (ts, i) => {
 									return (
 										<li 
 											className="font-mono text-center text-lg border-purple-200 py-1 px-10"
 											key={i}
 										>
-											#{tallyRecords[currentRecordIndex].tallySet.length-i} @ {ts.toLocaleString()}
+											#{tallyRecords[currentRecordIndex].tallySet.length-i} @ {ts.toLocaleString()} <button onClick={() => deleteTally(i)}>X</button>
 										</li>
 									)}
 								)

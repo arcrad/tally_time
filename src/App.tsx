@@ -57,7 +57,7 @@ function App() {
 				Array.isArray(newTallyRecords[currentRecordIndex].tallySet)
 			) {
 				console.log('PUSH new date');
-				newTallyRecords[currentRecordIndex].tallySet.push(new Date());
+				newTallyRecords[currentRecordIndex].tallySet.unshift(new Date());
 			} else {
 				console.log('CREATE new tallySet array');
 				newTallyRecords[currentRecordIndex].tallySet = [new Date()];
@@ -139,6 +139,16 @@ function App() {
 		recordSelectDialogRef?.current?.close()
 	};
 	
+	function deleteTally(tallyIndex:number) {
+		if(window.confirm('Are you sure you want to delete this tally?')) {
+			setTallyRecords( cs => {
+				let newTallyRecords = structuredClone(cs);
+				newTallyRecords[currentRecordIndex].tallySet.splice(tallyIndex, 1);
+				return newTallyRecords;
+			});
+		}
+	}
+	
 	return (
     <>
 			<div className="flex flex-col content-center items-center mb-10">
@@ -191,6 +201,7 @@ function App() {
 				<TallyList
 					tallyRecords={tallyRecords}
 					currentRecordIndex={currentRecordIndex}
+					deleteTally={deleteTally}
 				/>
 			</div>
 			<RecordsDialog
