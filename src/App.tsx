@@ -8,6 +8,7 @@ import RecordsDialog from './components/RecordsDialog';
 
 function App() {
 	const recordSelectDialogRef = useRef<HTMLDialogElement>(null);
+	const renameInputRef = useRef<HTMLInputElement>(null);
 
 	const [currentRecordIndex, setCurrentRecordIndex] = useState( () => {
 		return parseInt(localStorage.getItem("currentRecordIndex") ?? '0');
@@ -37,7 +38,6 @@ function App() {
 		//console.warn('got to loading empty tallyrecords');
 		return [];
 	});
-	const [editRecordNameModeActive, setEditRecordNameModeActive] = useState(false);
 
 	useEffect( () => {
 			//console.warn('updating tallyRecords local storage');
@@ -77,17 +77,19 @@ function App() {
 	}
 
 	function createNewRecord() {
+		let newRecordTitle = `New Tally Record ${tallyRecords.length}`;
 		setTallyRecords( cs => {
 			return [
 				...cs, 
 				{
-					title: `New Tally Record ${tallyRecords.length}`,
+					title: newRecordTitle,
 					color: '#ff0000',
 					tallySet: []
 				}
 			]
 		});
 		setCurrentRecordIndex(tallyRecords.length);
+		renameInputRef.current.value = newRecordTitle;
 		recordSelectDialogRef?.current?.close()
 	};
 	
@@ -97,12 +99,14 @@ function App() {
 			return;
 		}
 		if(window.confirm('Are you sure? This will delete the current record.')) {
+			let newRecordIndex = currentRecordIndex - 1 > 0 ? currentRecordIndex - 1 : 0;
 			setTallyRecords( cs => {
 				let newTallyRecords = structuredClone(cs);
 				newTallyRecords.splice(currentRecordIndex, 1);
+				renameInputRef.current.value = newTallyRecords[newRecordIndex].title;	
 				return newTallyRecords;
 			});
-			setCurrentRecordIndex( cs => cs - 1 > 0 ? cs - 1 : 0 );
+			setCurrentRecordIndex(newRecordIndex);
 		}
 	};
 	
@@ -110,7 +114,7 @@ function App() {
 		if(newTitle.length < 1) {
 			return;
 		}
-		console.dir(`updateRecordTitle called newtitle=${newTitle}`);
+		//console.dir(`updateRecordTitle called newtitle=${newTitle}`);
 		setTallyRecords( cs => {
 			let newTallyRecords = structuredClone(cs);
 			newTallyRecords[currentRecordIndex].title = newTitle;
@@ -118,48 +122,46 @@ function App() {
 		});
 	}
 
-	let recordNameChangeInputDebounceId = 0;
+	const recordNameChangeInputDebounceId = useRef(0);
 	function handleRecordNameChange(input:string) {
-		if(recordNameChangeInputDebounceId > 0) {
-			window.clearTimeout(recordNameChangeInputDebounceId);
+		if(recordNameChangeInputDebounceId.current > 0) {
+			window.clearTimeout(recordNameChangeInputDebounceId.current);
 		}
-		recordNameChangeInputDebounceId = window.setTimeout( () => {
+		recordNameChangeInputDebounceId.current = window.setTimeout( () => {
 			updateRecordTitle(input);
-			recordNameChangeInputDebounceId = 0;
-		}, 100);
+			recordNameChangeInputDebounceId.current = 0;
+		}, 50);
 	}
 
 	function updateActiveRecord(recordIndex:number) {
 		setCurrentRecordIndex(recordIndex);
+		renameInputRef.current.value = tallyRecords[recordIndex].title;
 		recordSelectDialogRef?.current?.close()
 	};
- 
+	
 	return (
     <>
 			<div className="flex flex-col content-center items-center mb-10">
 				<div className="w-3/4">
 					<h1 className="text-3xl leading-loose text-center">Tally Time</h1>
 					<div className="flex flex-row justify-center items-center">
-					{ editRecordNameModeActive ? 
-						<input 
-							className="rounded-md my-1 ml-0 mr-1 border border-black text-lg px-2 py-1"
-							type="text"
-							onChange={ (e) => handleRecordNameChange(e.target.value)}
-							defaultValue={tallyRecords[currentRecordIndex].title}
-						/>
-						:
-						<button 
-							className="my-1 ml-0 mr-1 text-lg font-bold rounded-md hover:bg-purple-100 text-black px-2 py-1"
-							onClick={() => recordSelectDialogRef?.current?.showModal()}
-						>
-							{tallyRecords[currentRecordIndex].title}<span className="pl-2">▼</span>
-						</button>
-					}
+					<input 
+						ref={renameInputRef}
+						className="rounded-md my-1 ml-0 mr-1 font-bold hover:border border-purple-600 text-lg px-2 py-1"
+						style={{
+							minWidth: '18rem',
+							maxWidth: '90vw',
+							width: (tallyRecords[currentRecordIndex].title.length-1)*0.69+"rem"}}
+						type="text"
+						onChange={ (e) => handleRecordNameChange(e.target.value)}
+						onBlur={ (e) => e.target.scrollLeft = 0 }
+						defaultValue={tallyRecords[currentRecordIndex].title}
+					/>
 					<button 
-						className="m-1 text-lg rounded-md border-solid border-purple-200 border hover:bg-purple-100 text-gray-50 px-2 py-1"
-						onClick={() => setEditRecordNameModeActive( cs => !cs)}
+						className="m-1 text-lg rounded-md border-solid border-purple-600 border hover:bg-purple-100 text-purple-700 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
+						onClick={() => recordSelectDialogRef?.current?.showModal()}
 					>
-					 { editRecordNameModeActive ? '❌ ' : '✏️ ' }	
+						▼
 					</button>
 					<button 
 						className="m-1 text-lg rounded-md border-solid border-purple-200 border hover:bg-purple-100 text-gray-50 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
