@@ -89,7 +89,9 @@ function App() {
 			]
 		});
 		setCurrentRecordIndex(tallyRecords.length);
-		renameInputRef.current.value = newRecordTitle;
+		if(renameInputRef.current !== null) {
+			renameInputRef.current.value = newRecordTitle;
+		}
 		recordSelectDialogRef?.current?.close()
 	};
 	
@@ -103,7 +105,9 @@ function App() {
 			setTallyRecords( cs => {
 				let newTallyRecords = structuredClone(cs);
 				newTallyRecords.splice(currentRecordIndex, 1);
-				renameInputRef.current.value = newTallyRecords[newRecordIndex].title;	
+				if(renameInputRef.current !== null) {
+					renameInputRef.current.value = newTallyRecords[newRecordIndex].title;	
+				}
 				return newTallyRecords;
 			});
 			setCurrentRecordIndex(newRecordIndex);
@@ -135,7 +139,9 @@ function App() {
 
 	function updateActiveRecord(recordIndex:number) {
 		setCurrentRecordIndex(recordIndex);
-		renameInputRef.current.value = tallyRecords[recordIndex].title;
+		if(renameInputRef.current !== null) {
+			renameInputRef.current.value = tallyRecords[recordIndex].title;
+		}
 		recordSelectDialogRef?.current?.close()
 	};
 	
