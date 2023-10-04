@@ -157,35 +157,36 @@ function App() {
 	
 	return (
     <>
-			<div className="flex flex-col content-center items-center mb-10">
-				<div className="w-3/4">
+			<div className="w-full flex flex-col content-center items-center mb-10">
+				<div className="w-full sm:w-8/12 lg:w-5/12">
 					<h1 className="text-3xl leading-loose text-center">Tally Time</h1>
-					<div className="flex flex-row justify-center items-center">
-					<input 
-						ref={renameInputRef}
-						className="rounded-md my-1 ml-0 mr-1 font-bold hover:border border-purple-600 text-lg px-2 py-1"
-						style={{
-							minWidth: '18rem',
-							maxWidth: '90vw',
-							width: (tallyRecords[currentRecordIndex].title.length-1)*0.69+"rem"}}
-						type="text"
-						onChange={ (e) => handleRecordNameChange(e.target.value)}
-						onBlur={ (e) => e.target.scrollLeft = 0 }
-						defaultValue={tallyRecords[currentRecordIndex].title}
-					/>
-					<button 
-						className="m-1 text-lg rounded-md border-solid border-purple-600 border hover:bg-purple-100 text-purple-700 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
-						onClick={() => recordSelectDialogRef?.current?.showModal()}
-					>
-						▼
-					</button>
-					<button 
-						className="m-1 text-lg rounded-md border-solid border-purple-200 border hover:bg-purple-100 text-gray-50 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
-						onClick={deleteActiveRecord}
-						disabled={tallyRecords.length === 1}
-					>
-					 🗑️ 	
-					</button>
+					<div className="w-full flex flex-row justify-center items-center">
+						<div className="flex flex-row flex-nowrap w-3/4">
+						<input 
+							ref={renameInputRef}
+							className="flex-auto w-full rounded-md my-1 ml-1 mr-1 font-bold border border-white hover:border-purple-600 text-lg px-2 py-1"
+							style={{
+								minWidth: '5rem',
+							}}
+							type="text"
+							onChange={ (e) => handleRecordNameChange(e.target.value)}
+							onBlur={ (e) => e.target.scrollLeft = 0 }
+							defaultValue={tallyRecords[currentRecordIndex].title}
+						/>
+						<button 
+							className="m-1 text-lg rounded-md border-solid border-purple-600 border hover:bg-purple-100 text-purple-700 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
+							onClick={() => recordSelectDialogRef?.current?.showModal()}
+						>
+							▼
+						</button>
+						</div>
+						<button 
+							className="m-1 text-lg rounded-md border-solid border-purple-200 border hover:bg-purple-100 text-gray-50 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
+							onClick={deleteActiveRecord}
+							disabled={tallyRecords.length === 1}
+						>
+						 🗑️ 	
+						</button>
 					</div>
 					<p className="text-sm text-center mt-4 uppercase font-bold">Total Tallies</p>
 					<p className="text-7xl text-center mb-4 leading-tight">{tallyRecords[currentRecordIndex].tallySet.length}</p>
@@ -203,13 +204,13 @@ function App() {
 						Clear Tallies
 					</button>
 					</div>
-				</div>
 				<TallyList
 					tallyRecords={tallyRecords}
 					currentRecordIndex={currentRecordIndex}
 					deleteTally={deleteTally}
 				/>
 			</div>
+				</div>
 			<RecordsDialog
 				dialogRef={recordSelectDialogRef}
 				tallyRecords={tallyRecords}

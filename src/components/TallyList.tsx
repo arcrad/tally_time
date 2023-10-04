@@ -22,10 +22,10 @@ function TallyList({
 								.map( (ts, i) => {
 									return (
 										<li 
-											className="font-mono text-center text-lg border-purple-200 py-1 px-10"
+											className="font-mono text-center text-sm sm:text-lg border-purple-200 py-2 px-2"
 											key={i}
 										>
-											#{tallyRecords[currentRecordIndex].tallySet.length-i} @ {ts.toLocaleString()} <button onClick={() => deleteTally(i)}>X</button>
+											#{tallyRecords[currentRecordIndex].tallySet.length-i} @ {ts.toLocaleString()} <button onClick={() => deleteTally(i)}>❌</button>
 										</li>
 									)}
 								)
