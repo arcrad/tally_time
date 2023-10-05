@@ -4,8 +4,9 @@
 -refine styles/layout (tailwind too heavy? nope, used it lol)
 -remove default assets
 -validate typescript build
-+improve behavior when deleting a record that is currently in rename mode
-+improve layout on mobile to better fit content
+-improve behavior when deleting a record that is currently in rename mode
+-improve layout on mobile to better fit content
+-run prettier
 
 +test on various devices/modalities
 +setup tests?
