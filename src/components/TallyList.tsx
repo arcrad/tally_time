@@ -12,7 +12,7 @@ function TallyList({
   deleteTally,
 }: TallyListProps) {
   return (
-    <div className="mt-4 px-2 max-h-96 overflow-y-scroll">
+    <div className="mt-4 px-2 max-w-[26rem] overflow-y-scroll">
       {tallyRecords &&
       tallyRecords[currentRecordIndex] &&
       tallyRecords[currentRecordIndex].tallySet.length === 0 ? (

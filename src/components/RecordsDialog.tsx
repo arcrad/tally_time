@@ -27,18 +27,15 @@ function RecordsDialog({
       <h1 className="text-sm uppercase font-bold px-2 py-2">
         Available Tally Records
       </h1>
-      <ul>
+      <ul className="divide-y">
         {tallyRecords.map((record, i) => {
           return (
             <li
-              className="text-lg leading-loose"
-              style={{
-                fontWeight: `${i == currentRecordIndex ? "bold" : "normal"}`,
-              }}
+              className={`text-lg leading-loose border-gray-300 ${i == currentRecordIndex ? "font-bold" : ""}`}
               key={i}
             >
               <button
-                className="w-full text-left rounded-md px-2 hover:bg-gray-200"
+                className="w-full text-left px-2 hover:bg-gray-200"
                 onClick={() => {
                   updateActiveRecord(i);
                 }}
