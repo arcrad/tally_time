@@ -12,7 +12,7 @@ function TallyList({
   deleteTally,
 }: TallyListProps) {
   return (
-    <div className="mt-4 px-2 max-w-[26rem] overflow-y-scroll">
+    <div className="mt-4 max-w-[26rem] overflow-y-scroll px-2">
       {tallyRecords &&
       tallyRecords[currentRecordIndex] &&
       tallyRecords[currentRecordIndex].tallySet.length === 0 ? (
@@ -22,7 +22,7 @@ function TallyList({
           {tallyRecords[currentRecordIndex].tallySet.map((ts, i) => {
             return (
               <li
-                className="font-mono text-center text-sm sm:text-lg border-purple-200 py-2 px-2"
+                className="border-purple-200 px-2 py-2 text-center font-mono text-sm sm:text-lg"
                 key={i}
               >
                 #{tallyRecords[currentRecordIndex].tallySet.length - i} @{" "}

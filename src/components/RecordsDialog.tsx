@@ -21,21 +21,23 @@ function RecordsDialog({
   }
   return (
     <dialog
-      className="p-4 rounded-xl backdrop:bg-purple-900 backdrop:bg-opacity-80"
+      className="rounded-xl p-4 backdrop:bg-purple-900 backdrop:bg-opacity-80"
       ref={dialogRef}
     >
-      <h1 className="text-sm uppercase font-bold px-2 py-2">
+      <h1 className="px-2 py-2 text-sm font-bold uppercase">
         Available Tally Records
       </h1>
       <ul className="divide-y">
         {tallyRecords.map((record, i) => {
           return (
             <li
-              className={`text-lg leading-loose border-gray-300 ${i == currentRecordIndex ? "font-bold" : ""}`}
+              className={`border-gray-300 text-lg leading-loose ${
+                i == currentRecordIndex ? "font-bold" : ""
+              }`}
               key={i}
             >
               <button
-                className="w-full text-left px-2 hover:bg-gray-200"
+                className="w-full px-2 text-left hover:bg-gray-200"
                 onClick={() => {
                   updateActiveRecord(i);
                 }}
@@ -46,15 +48,15 @@ function RecordsDialog({
           );
         })}
       </ul>
-      <div className="mt-2 space-x-2 flex flex-row justify-center items-center">
+      <div className="mt-2 flex flex-row items-center justify-center space-x-2">
         <button
-          className="border border-green-500 text-lg px-2 py-1 rounded-md text-green-600 hover:bg-green-100"
+          className="rounded-md border border-green-500 px-2 py-1 text-lg text-green-600 hover:bg-green-100"
           onClick={createNewRecord}
         >
           + New Record
         </button>
         <button
-          className="border border-gray-600 text-lg px-2 py-1 rounded-md text-gray-700 hover:bg-gray-200"
+          className="rounded-md border border-gray-600 px-2 py-1 text-lg text-gray-700 hover:bg-gray-200"
           onClick={() => dialogRef?.current?.close()}
         >
           Close

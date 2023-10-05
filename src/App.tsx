@@ -159,14 +159,14 @@ function App() {
 
   return (
     <>
-      <div className="w-full flex flex-col justify-start content-start items-center mb-10">
-        <div className="w-full sm:w-9/12 lg:w-1/2 flex flex-col justify-start content-start items-center">
-          <h1 className="text-3xl leading-loose text-center">Tally Time ⏰</h1>
-          <div className="w-full flex flex-row justify-center items-center">
-            <div className="flex flex-row flex-nowrap w-3/4">
+      <div className="mb-10 flex w-full flex-col content-start items-center justify-start">
+        <div className="flex w-full flex-col content-start items-center justify-start sm:w-9/12 lg:w-1/2">
+          <h1 className="text-center text-3xl leading-loose">Tally Time ⏰</h1>
+          <div className="flex w-full flex-row items-center justify-center">
+            <div className="flex w-3/4 flex-row flex-nowrap">
               <input
                 ref={renameInputRef}
-                className="flex-auto w-full rounded-md my-1 ml-1 mr-1 font-bold border border-white hover:border-purple-600 text-lg px-2 py-1"
+                className="my-1 ml-1 mr-1 w-full flex-auto rounded-md border border-white px-2 py-1 text-lg font-bold hover:border-purple-600"
                 style={{
                   minWidth: "5rem",
                 }}
@@ -176,35 +176,35 @@ function App() {
                 defaultValue={tallyRecords[currentRecordIndex].title}
               />
               <button
-                className="m-1 text-lg rounded-md border-solid border-purple-600 border hover:bg-purple-100 text-purple-700 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
+                className="m-1 rounded-md border border-solid border-purple-600 px-2 py-1 text-lg text-purple-700 hover:bg-purple-100 disabled:opacity-30 disabled:hover:bg-white"
                 onClick={() => recordSelectDialogRef?.current?.showModal()}
               >
                 ▼
               </button>
             </div>
             <button
-              className="m-1 text-lg rounded-md border-solid border-purple-200 border hover:bg-purple-100 text-gray-50 px-2 py-1 disabled:opacity-30 disabled:hover:bg-white"
+              className="m-1 rounded-md border border-solid border-purple-200 px-2 py-1 text-lg text-gray-50 hover:bg-purple-100 disabled:opacity-30 disabled:hover:bg-white"
               onClick={deleteActiveRecord}
               disabled={tallyRecords.length === 1}
             >
               🗑️
             </button>
           </div>
-          <p className="text-sm text-center mt-4 uppercase font-bold">
+          <p className="mt-4 text-center text-sm font-bold uppercase">
             Total Tallies
           </p>
-          <p className="text-7xl text-center mb-4 leading-tight">
+          <p className="mb-4 text-center text-7xl leading-tight">
             {tallyRecords[currentRecordIndex].tallySet.length}
           </p>
-          <div className="flex flex-row justify-center items-center">
+          <div className="flex flex-row items-center justify-center">
             <button
-              className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 px-4 py-1"
+              className="m-1 rounded-md bg-purple-700 px-4 py-1 text-gray-50 hover:bg-purple-900"
               onClick={addTally}
             >
               <strong className="text-xl leading-none">+</strong> Add Tally
             </button>
             <button
-              className="m-1 rounded-md bg-purple-700 hover:bg-purple-900 text-gray-50 px-4 py-1"
+              className="m-1 rounded-md bg-purple-700 px-4 py-1 text-gray-50 hover:bg-purple-900"
               onClick={resetTallySet}
             >
               Clear Tallies
