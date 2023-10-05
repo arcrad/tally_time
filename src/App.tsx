@@ -31,7 +31,7 @@ function App() {
           tallySet: record.tallySet.map((item: string) => new Date(item)),
         };
       });
-      console.dir(fixedRecords);
+      //console.dir(fixedRecords);
       return fixedRecords;
     }
     //console.warn('got to loading empty tallyrecords');
@@ -51,7 +51,7 @@ function App() {
     setTallyRecords((cs) => {
       let newTallyRecords = structuredClone(cs);
       console.log("new tally records");
-      console.dir(newTallyRecords);
+      //console.dir(newTallyRecords);
       if (Array.isArray(newTallyRecords[currentRecordIndex].tallySet)) {
         console.log("PUSH new date");
         newTallyRecords[currentRecordIndex].tallySet.unshift(new Date());
