@@ -161,7 +161,7 @@ function App() {
     <>
       <div className="w-full flex flex-col justify-start content-start items-center mb-10">
         <div className="w-full sm:w-9/12 lg:w-1/2 flex flex-col justify-start content-start items-center">
-          <h1 className="text-3xl leading-loose text-center">Tally Time</h1>
+          <h1 className="text-3xl leading-loose text-center">Tally Time ⏰</h1>
           <div className="w-full flex flex-row justify-center items-center">
             <div className="flex flex-row flex-nowrap w-3/4">
               <input
