@@ -12,11 +12,23 @@ function TallyList({
   deleteTally,
 }: TallyListProps) {
   return (
-    <div className="mt-4 max-w-[26rem] overflow-y-scroll px-2">
+    <div
+      className="mt-4 max-h-96 max-w-[26rem] overflow-y-scroll px-2 pb-20"
+      style={{
+        mask: "linear-gradient(to bottom, rgba(0,0,0, 1) 0, rgba(0,0,0, 1) 75%, rgba(0,0,0, 0) 95%, rgba(0,0,0, 0) 0) 100% 50% / 100% 100% repeat-x",
+      }}
+    >
       {tallyRecords &&
       tallyRecords[currentRecordIndex] &&
       tallyRecords[currentRecordIndex].tallySet.length === 0 ? (
-        <span>No tallys yet...</span>
+        <p className="py-2 text-center text-lg leading-loose">
+          No tallys yet. <br />
+          Click{" "}
+          <span className="mx-1 rounded border border-gray-900 px-2 py-1 text-base font-bold text-gray-900">
+            + Add Tally
+          </span>{" "}
+          above to start.
+        </p>
       ) : (
         <ul className="tallyList divide-y-2">
           {tallyRecords[currentRecordIndex].tallySet.map((ts, i) => {

@@ -193,7 +193,7 @@ function App() {
           <p className="mt-4 text-center text-sm font-bold uppercase">
             Total Tallies
           </p>
-          <p className="mb-4 text-center text-7xl leading-tight">
+          <p className="mb-4 text-center text-7xl leading-tight sm:text-8xl">
             {tallyRecords[currentRecordIndex].tallySet.length}
           </p>
           <div className="flex flex-row items-center justify-center">
